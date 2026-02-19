@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level 5: Domain Applications — AI Prompt Engineering Playground</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  .level-hero h1{background:linear-gradient(135deg,#fff 30%,#ff4466);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .tab.active{background:rgba(255,68,102,.15)!important;border-color:rgba(255,68,102,.4)!important;color:#ff4466!important}
+  .progress-bar{background:linear-gradient(90deg,#ff4466,#dc2626)}
+  .nav-level-badge{background:rgba(255,68,102,.12);color:#ff4466;border:1px solid rgba(255,68,102,.3)}
+</style>
+</head>
+<body>
+<div class="particles" id="particles"></div>
+<div class="bg-blobs"></div>
+
+<nav>
+  <div class="nav-left">
+    <a href="index.html" class="nav-home">← Home</a>
+    <span class="nav-level-badge">LEVEL 5</span>
+    <span class="nav-title-text">Domain Applications</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-progress-text" id="nav-progress-label">0/30 completed</span>
+  </div>
+</nav>
+<div class="progress-bar" id="progress-bar" style="width:0%"></div>
+
+<section class="level-hero">
+  <div class="level-hero-tag">🎯 Level 5 · 15–18 hours · Advanced</div>
+  <h1>Domain Applications</h1>
+  <p>Real-World Use Cases — apply prompt engineering to code, content, data analysis, and business workflows.</p>
+  <div class="topic-pills">
+    <span class="topic-pill">Code Generation</span>
+    <span class="topic-pill">Content Creation</span>
+    <span class="topic-pill">Data Analysis</span>
+    <span class="topic-pill">Education</span>
+    <span class="topic-pill">Business</span>
+  </div>
+</section>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab(5,0,this)">💻 Code Prompts</button>
+    <button class="tab" onclick="switchTab(5,1,this)">✍️ Content Creation</button>
+    <button class="tab" onclick="switchTab(5,2,this)">📊 Data Analysis</button>
+    <button class="tab" onclick="switchTab(5,3,this)">🏢 Business</button>
+    <button class="tab" onclick="switchTab(5,4,this)">🎯 Exercise</button>
+    <button class="tab" onclick="switchTab(5,5,this)">❓ Quiz</button>
+  </div>
+
+  <!-- TAB 0: CODE PROMPTS -->
+  <div class="lesson-content active" id="l5_t0">
+    <div class="concept-block">
+      <h3>Code Generation Prompts</h3>
+      <p>Software development is the domain where prompt engineering delivers the most immediate ROI.</p>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-head" onclick="togglePattern(this)">
+        <span class="pattern-name" style="color:#ff4466">Write a Function</span><span class="pattern-chevron">▼</span>
+      </div>
+      <div class="pattern-body open">
+        <div class="pattern-template">Write a Python function that [DESCRIPTION].
+
+Requirements:
+- Input: [INPUT_TYPES_AND_DESCRIPTION]
+- Output: [RETURN_TYPE_AND_DESCRIPTION]
+- Handle edge cases: [EDGE_CASES]
+- Include: type hints, docstring, error handling
+- Follow PEP 8 style
+
+Include a brief usage example.</div>
+        <button class="copy-btn" onclick="copyText(this, this.previousElementSibling.textContent.trim())">Copy</button>
+      </div>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-head" onclick="togglePattern(this)">
+        <span class="pattern-name" style="color:#ff4466">Debug Code</span><span class="pattern-chevron">▼</span>
+      </div>
+      <div class="pattern-body">
+        <div class="pattern-template">Debug this [LANGUAGE] code. It should [EXPECTED_BEHAVIOR] but instead [ACTUAL_BEHAVIOR].
+
+Code:
+```[LANGUAGE]
+[YOUR CODE]
+```
+
+Error (if any): [ERROR_MESSAGE]
+
+Provide:
+1. Root cause explanation
+2. Fixed code with comments on what changed
+3. How to avoid this bug in the future</div>
+        <button class="copy-btn" onclick="copyText(this, this.previousElementSibling.textContent.trim())">Copy</button>
+      </div>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-head" onclick="togglePattern(this)">
+        <span class="pattern-name" style="color:#ff4466">Code Review</span><span class="pattern-chevron">▼</span>
+      </div>
+      <div class="pattern-body">
+        <div class="pattern-template">You are a senior software engineer conducting a code review. Review this code for:
+- Correctness and logic errors
+- Performance issues
+- Security vulnerabilities
+- Readability and maintainability
+- Best practices for [LANGUAGE/FRAMEWORK]
+
+Code:
+```[LANGUAGE]
+[CODE]
+```
+
+Format your review as: Issue | Severity (High/Med/Low) | Suggested Fix</div>
+        <button class="copy-btn" onclick="copyText(this, this.previousElementSibling.textContent.trim())">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 1: CONTENT CREATION -->
+  <div class="lesson-content" id="l5_t1">
+    <div class="concept-block">
+      <h3>Content Creation Templates</h3>
+      <p>Content creation is one of the most common use cases. These templates cover the most important formats.</p>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-head" onclick="togglePattern(this)">
+        <span class="pattern-name" style="color:#ff4466">Blog Post</span><span class="pattern-chevron">▼</span>
+      </div>
+      <div class="pattern-body open">
+        <div class="pattern-template">Write a [WORD_COUNT]-word blog post about [TOPIC] for [TARGET_AUDIENCE].
+
+Tone: [conversational/professional/technical/inspiring]
+Goal: [inform/persuade/entertain/convert]
+
+Structure:
+- Compelling headline (include primary keyword: [KEYWORD])
+- Hook: Start with [story/statistic/question/bold claim]
+- 3-4 main sections with H2 headings
+- Practical takeaways
+- CTA at the end: [DESIRED_ACTION]
+
+SEO: Naturally include: [KEYWORD_1], [KEYWORD_2]
+Do not start with "In today's world" or "In conclusion".</div>
+        <button class="copy-btn" onclick="copyText(this, this.previousElementSibling.textContent.trim())">Copy</button>
+      </div>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-head" onclick="togglePattern(this)">
+        <span class="pattern-name" style="color:#ff4466">Email Copy</span><span class="pattern-chevron">▼</span>
+      </div>
+      <div class="pattern-body">
+        <div class="pattern-template">Write a [cold outreach/follow-up/nurture/re-engagement] email for [PRODUCT/SERVICE].
+
+Target: [ICP_DESCRIPTION]
+Goal: [DESIRED_OUTCOME - e.g., book a demo]
+Pain point addressed: [PAIN_POINT]
+Value proposition: [ONE_LINE_VALUE_PROP]
+
+Format:
+- Subject line (under 50 chars, no clickbait)
+- Preview text
+- Body (under 150 words)
+- Clear single CTA
+
+Tone: [TONE]. No buzzwords. No "hope this finds you well".</div>
+        <button class="copy-btn" onclick="copyText(this, this.previousElementSibling.textContent.trim())">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: DATA ANALYSIS -->
+  <div class="lesson-content" id="l5_t2">
+    <div class="concept-block">
+      <h3>Data Analysis Prompts</h3>
+      <p>LLMs excel at analyzing, classifying, and extracting insights from text data.</p>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-head" onclick="togglePattern(this)">
+        <span class="pattern-name" style="color:#ff4466">Sentiment Analysis</span><span class="pattern-chevron">▼</span>
+      </div>
+      <div class="pattern-body open">
+        <div class="pattern-template">Analyze the sentiment of each customer review below.
+
+For each review, return:
+- Sentiment: Positive / Neutral / Negative
+- Confidence: High / Medium / Low
+- Key themes (max 3, comma-separated)
+- Actionable insight for product team
+
+Format as JSON array.
+
+Reviews:
+[REVIEW_1]
+[REVIEW_2]
+[REVIEW_3]</div>
+        <button class="copy-btn" onclick="copyText(this, this.previousElementSibling.textContent.trim())">Copy</button>
+      </div>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-head" onclick="togglePattern(this)">
+        <span class="pattern-name" style="color:#ff4466">Data Extraction</span><span class="pattern-chevron">▼</span>
+      </div>
+      <div class="pattern-body">
+        <div class="pattern-template">Extract structured data from the following text.
+
+Extract these fields:
+- [FIELD_1]: [description/format]
+- [FIELD_2]: [description/format]
+- [FIELD_3]: [description/format]
+
+Rules:
+- If a field is missing, use null
+- Dates in YYYY-MM-DD format
+- Return ONLY valid JSON, no explanation
+
+Text:
+[TEXT_TO_PARSE]</div>
+        <button class="copy-btn" onclick="copyText(this, this.previousElementSibling.textContent.trim())">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: BUSINESS -->
+  <div class="lesson-content" id="l5_t3">
+    <div class="concept-block">
+      <h3>Business Prompt Templates</h3>
+      <p>High-value templates for common business tasks that can save hours of work.</p>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-head" onclick="togglePattern(this)">
+        <span class="pattern-name" style="color:#ff4466">Meeting Summary</span><span class="pattern-chevron">▼</span>
+      </div>
+      <div class="pattern-body open">
+        <div class="pattern-template">Summarize this meeting transcript.
+
+Output format:
+## Meeting: [AUTO-DETECT TITLE]
+**Date:** [DATE]
+**Attendees:** [LIST]
+
+### Key Decisions
+- [DECISION_1]
+
+### Action Items
+| Owner | Task | Deadline |
+|-------|------|----------|
+| [NAME] | [TASK] | [DATE] |
+
+### Open Questions
+- [QUESTION_1]
+
+### Next Meeting
+[DATE AND AGENDA IF MENTIONED]
+
+Transcript:
+[PASTE TRANSCRIPT HERE]</div>
+        <button class="copy-btn" onclick="copyText(this, this.previousElementSibling.textContent.trim())">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 4: EXERCISE -->
+  <div class="lesson-content" id="l5_t4">
+    <div class="exercise" style="border-color:rgba(255,68,102,.2)">
+      <span class="exercise-tag" style="background:rgba(255,68,102,.1);color:#ff4466">// Domain Exercise</span>
+      <h4>Create a Domain-Specific Prompt for Your Work</h4>
+      <p>Pick a real task from your daily work or study. Use one of the templates from this level as a base and customize it:</p>
+      <textarea class="ex-prompt-area" id="domain_ex" placeholder="Adapt a template from this level for your specific domain and use case..." style="min-height:160px"></textarea>
+      <div class="ex-actions">
+        <button class="btn primary" style="background:linear-gradient(135deg,#ff4466,#dc2626)" onclick="runDomainEx()">▶ Test Prompt</button>
+        <button class="btn" onclick="scoreDomain()">📊 Score</button>
+      </div>
+      <div class="ex-output" id="domain_ex_out"></div>
+      <div class="ex-feedback" id="domain_ex_fb"></div>
+    </div>
+  </div>
+
+  <!-- TAB 5: QUIZ -->
+  <div class="lesson-content" id="l5_t5">
+    <div class="section-title">// Level 5 Quiz</div>
+    <div class="quiz-q" id="q5_1">
+      <h4>Q1: When writing a code debugging prompt, you should always include...</h4>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answerQuiz('q5_1',0,1,'Exactly! Without the error message and expected vs actual behavior, the model is guessing.')">Only the broken code</button>
+        <button class="quiz-opt" onclick="answerQuiz('q5_1',1,1,'Exactly! Without the error message and expected vs actual behavior, the model is guessing.')">The code, the error message, expected behavior, and actual behavior</button>
+        <button class="quiz-opt" onclick="answerQuiz('q5_1',2,1,'Exactly! Without the error message and expected vs actual behavior, the model is guessing.')">A description of what you want to build</button>
+        <button class="quiz-opt" onclick="answerQuiz('q5_1',3,1,'Exactly! Without the error message and expected vs actual behavior, the model is guessing.')">The full project codebase</button>
+      </div>
+      <div class="quiz-explain" id="q5_1_ex"></div>
+    </div>
+    <div class="quiz-q" id="q5_2">
+      <h4>Q2: For content creation, which element most improves blog post prompts?</h4>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answerQuiz('q5_2',0,2,'Correct! Specifying audience, tone, goal, AND structure turns a generic prompt into a precise brief.')">Making the prompt very long</button>
+        <button class="quiz-opt" onclick="answerQuiz('q5_2',1,2,'Correct! Specifying audience, tone, goal, AND structure turns a generic prompt into a precise brief.')">Using only keywords</button>
+        <button class="quiz-opt" onclick="answerQuiz('q5_2',2,2,'Correct! Specifying audience, tone, goal, AND structure turns a generic prompt into a precise brief.')">Defining audience, tone, goal, and structure explicitly</button>
+        <button class="quiz-opt" onclick="answerQuiz('q5_2',3,2,'Correct! Specifying audience, tone, goal, AND structure turns a generic prompt into a precise brief.')">Asking the model to use SEO keywords</button>
+      </div>
+      <div class="quiz-explain" id="q5_2_ex"></div>
+    </div>
+  </div>
+
+  <div class="level-footer">
+    <a href="level4.html" class="footer-prev">← Level 4: Optimization</a>
+    <a href="level6.html" class="footer-next">Level 6: Mastery →</a>
+  </div>
+</div>
+
+<script src="shared.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>saveProgress('l5_t0_done',true));</script>
+</body>
+</html>

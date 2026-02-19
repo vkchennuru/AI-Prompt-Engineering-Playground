@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level 2: Prompt Techniques — AI Prompt Engineering Playground</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  .level-hero h1{background:linear-gradient(135deg,#fff 30%,#39ff14);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .tab.active{background:rgba(57,255,20,.12)!important;border-color:rgba(57,255,20,.35)!important;color:#39ff14!important}
+  .progress-bar{background:linear-gradient(90deg,#39ff14,#00aa44)}
+  .nav-level-badge{background:rgba(57,255,20,.12);color:#39ff14;border:1px solid rgba(57,255,20,.3)}
+</style>
+</head>
+<body>
+<div class="particles" id="particles"></div>
+<div class="bg-blobs"></div>
+
+<nav>
+  <div class="nav-left">
+    <a href="index.html" class="nav-home">← Home</a>
+    <span class="nav-level-badge">LEVEL 2</span>
+    <span class="nav-title-text">Prompt Techniques</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-progress-text" id="nav-progress-label">0/30 completed</span>
+  </div>
+</nav>
+<div class="progress-bar" id="progress-bar" style="width:0%"></div>
+
+<section class="level-hero">
+  <div class="level-hero-tag">🛠️ Level 2 · 10–12 hours · Intermediate</div>
+  <h1>Prompt Techniques</h1>
+  <p>Advanced Prompting Strategies — master zero-shot, few-shot, chain-of-thought, role prompting, and format control.</p>
+  <div class="topic-pills">
+    <span class="topic-pill">Zero/One/Few-Shot</span>
+    <span class="topic-pill">Chain-of-Thought</span>
+    <span class="topic-pill">Role Prompting</span>
+    <span class="topic-pill">Format Control</span>
+    <span class="topic-pill">System Messages</span>
+  </div>
+</section>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab(2,0,this)">📋 Techniques Overview</button>
+    <button class="tab" onclick="switchTab(2,1,this)">🔗 CoT Deep Dive</button>
+    <button class="tab" onclick="switchTab(2,2,this)">🎭 Role Prompting</button>
+    <button class="tab" onclick="switchTab(2,3,this)">📐 Format Control</button>
+    <button class="tab" onclick="switchTab(2,4,this)">🎯 Exercise</button>
+    <button class="tab" onclick="switchTab(2,5,this)">❓ Quiz</button>
+  </div>
+
+  <!-- TAB 0: TECHNIQUES OVERVIEW -->
+  <div class="lesson-content active" id="l2_t0">
+    <div class="concept-block">
+      <h3>Core Prompting Techniques</h3>
+      <p>Beyond just asking questions, these techniques dramatically improve output quality:</p>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-head" onclick="togglePattern(this)">
+        <span class="pattern-name" style="color:#39ff14">🎯 Zero-Shot Prompting</span><span class="pattern-chevron">▼</span>
+      </div>
+      <div class="pattern-body open">
+        <p style="color:rgba(255,255,255,.65);margin-bottom:.8rem">Ask the model to perform a task without any examples. Works well for straightforward tasks.</p>
+        <div class="pattern-template">Translate the following text to French:
+"The weather is beautiful today."</div>
+        <p style="color:rgba(255,255,255,.5);font-size:.82rem">When to use: Simple, clear tasks where the model has strong priors. Quick lookups, translations, basic formatting.</p>
+      </div>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-head" onclick="togglePattern(this)">
+        <span class="pattern-name" style="color:#39ff14">📌 One-Shot Prompting</span><span class="pattern-chevron">▼</span>
+      </div>
+      <div class="pattern-body">
+        <p style="color:rgba(255,255,255,.65);margin-bottom:.8rem">Provide one example of the desired input/output to guide the model's response format.</p>
+        <div class="pattern-template">Convert product names to slug format.
+
+Example:
+Product: "Blue Ocean Sneakers Pro"
+Slug: blue-ocean-sneakers-pro
+
+Now convert:
+Product: "Mountain Trail Hiking Boots Elite"
+Slug:</div>
+        <button class="copy-btn" onclick="copyText(this, this.previousElementSibling.textContent.trim())">Copy</button>
+      </div>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-head" onclick="togglePattern(this)">
+        <span class="pattern-name" style="color:#39ff14">📚 Few-Shot Prompting</span><span class="pattern-chevron">▼</span>
+      </div>
+      <div class="pattern-body">
+        <p style="color:rgba(255,255,255,.65);margin-bottom:.8rem">Provide 3–5 examples. The gold standard for controlling output format and style for complex tasks.</p>
+        <div class="pattern-template">Classify customer reviews as Positive, Neutral, or Negative.
+
+Review: "This is the best product I've ever bought!"
+Sentiment: Positive
+
+Review: "It arrived on time, nothing special."
+Sentiment: Neutral
+
+Review: "Broke after two days, very disappointed."
+Sentiment: Negative
+
+Review: "Works as advertised, does the job."
+Sentiment:</div>
+        <button class="copy-btn" onclick="copyText(this, this.previousElementSibling.textContent.trim())">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 1: COT -->
+  <div class="lesson-content" id="l2_t1">
+    <div class="concept-block">
+      <h3>Chain-of-Thought (CoT) Prompting</h3>
+      <p>CoT prompting asks the model to reason step-by-step before giving a final answer. It dramatically improves accuracy on math, logic, and complex reasoning tasks.</p>
+    </div>
+    <div class="compare">
+      <div class="compare-box">
+        <div class="compare-head bad">✗ Without CoT</div>
+        <div class="compare-code">Roger has 5 tennis balls. He buys 2 cans of balls with 3 balls each. How many does he have?
+
+Answer: 11</div>
+        <div class="compare-why">No reasoning shown. Model may miss steps on harder problems.</div>
+      </div>
+      <div class="compare-box">
+        <div class="compare-head good">✓ With CoT</div>
+        <div class="compare-code">Roger has 5 tennis balls. He buys 2 cans of balls with 3 balls each. How many does he have? Let's think step by step.
+
+Reasoning: Roger starts with 5 balls. He buys 2 cans × 3 balls = 6 new balls. Total: 5 + 6 = 11.
+Answer: 11</div>
+        <div class="compare-why">Explicit reasoning ensures accuracy. Critical for multi-step problems.</div>
+      </div>
+    </div>
+    <div class="concept-block">
+      <h3>CoT Trigger Phrases</h3>
+      <div class="cheat-grid">
+        <div class="cheat-item"><div class="ci-label">Classic</div><div class="ci-val">"Let's think step by step."</div></div>
+        <div class="cheat-item"><div class="ci-label">Detailed</div><div class="ci-val">"Think through this carefully, showing your reasoning."</div></div>
+        <div class="cheat-item"><div class="ci-label">Structured</div><div class="ci-val">"First [X], then [Y], finally give the answer."</div></div>
+        <div class="cheat-item"><div class="ci-label">Explicit</div><div class="ci-val">"Before answering, list your reasoning steps."</div></div>
+      </div>
+    </div>
+    <div class="exercise" style="border-color:rgba(57,255,20,.2)">
+      <span class="exercise-tag" style="background:rgba(57,255,20,.1);color:#39ff14">// Exercise: Add CoT</span>
+      <h4>Transform this prompt to use Chain-of-Thought</h4>
+      <p>Original: <em>"If a train travels 60mph for 2.5 hours, how far does it go?"</em></p>
+      <textarea class="ex-prompt-area" id="cot_input" placeholder="Add step-by-step reasoning instructions to improve this prompt..."></textarea>
+      <div class="ex-actions">
+        <button class="btn primary" style="background:linear-gradient(135deg,#39ff14,#00aa44);color:#0a0a0f" onclick="runCoT()">▶ Test</button>
+      </div>
+      <div class="ex-output" id="cot_output"></div>
+    </div>
+  </div>
+
+  <!-- TAB 2: ROLE PROMPTING -->
+  <div class="lesson-content" id="l2_t2">
+    <div class="concept-block">
+      <h3>Role Prompting</h3>
+      <p>Assigning a persona to the model shifts its vocabulary, knowledge depth, and communication style. It's one of the highest-impact single changes you can make.</p>
+    </div>
+    <div class="compare">
+      <div class="compare-box">
+        <div class="compare-head bad">✗ No Role</div>
+        <div class="compare-code">Explain quantum entanglement.</div>
+        <div class="compare-why">Generic textbook answer. No calibration to audience or expertise level.</div>
+      </div>
+      <div class="compare-box">
+        <div class="compare-head good">✓ With Role</div>
+        <div class="compare-code">You are a physics professor who specializes in making complex concepts accessible. Explain quantum entanglement to a curious 12-year-old using only everyday analogies.</div>
+        <div class="compare-why">Role + audience = perfectly calibrated response.</div>
+      </div>
+    </div>
+    <div class="concept-block">
+      <h3>Role Formula</h3>
+      <div class="pattern-template">You are a [JOB TITLE] with [X years] of experience in [SPECIFIC DOMAIN].
+Your communication style is [STYLE].
+Your audience is [TARGET AUDIENCE].
+
+[TASK]</div>
+    </div>
+    <div class="exercise" style="border-color:rgba(57,255,20,.2)">
+      <span class="exercise-tag" style="background:rgba(57,255,20,.1);color:#39ff14">// Live Tester</span>
+      <h4>Build a Role Prompt</h4>
+      <p>Create a role prompt for any domain and test how the response changes:</p>
+      <textarea class="ex-prompt-area" id="role_input" placeholder="You are a [ROLE]...&#10;&#10;Task: explain [topic] to [audience]"></textarea>
+      <div class="ex-actions">
+        <button class="btn primary" style="background:linear-gradient(135deg,#39ff14,#00aa44);color:#0a0a0f" onclick="runRole()">▶ Simulate</button>
+        <button class="btn" onclick="fillRoleExample()">💡 Fill Example</button>
+      </div>
+      <div class="ex-output" id="role_output"></div>
+    </div>
+  </div>
+
+  <!-- TAB 3: FORMAT CONTROL -->
+  <div class="lesson-content" id="l2_t3">
+    <div class="concept-block">
+      <h3>Controlling Output Format</h3>
+      <p>Explicitly specifying output format is one of the most underused techniques. The model can produce almost any structured format if you ask correctly.</p>
+    </div>
+    <div class="cheat-grid">
+      <div class="cheat-item"><div class="ci-label">JSON</div><div class="ci-val">"Return as JSON with keys: name, age, skills"</div></div>
+      <div class="cheat-item"><div class="ci-label">Markdown Table</div><div class="ci-val">"Format as a markdown table with columns: Feature | Pro | Con"</div></div>
+      <div class="cheat-item"><div class="ci-label">Numbered List</div><div class="ci-val">"Give me exactly 5 numbered points"</div></div>
+      <div class="cheat-item"><div class="ci-label">CSV</div><div class="ci-val">"Output as CSV: name,price,category"</div></div>
+      <div class="cheat-item"><div class="ci-label">Structured Text</div><div class="ci-val">"Use headings: Summary, Details, Next Steps"</div></div>
+      <div class="cheat-item"><div class="ci-label">Code Block</div><div class="ci-val">"Return only the code, no explanation"</div></div>
+    </div>
+    <div class="compare">
+      <div class="compare-box">
+        <div class="compare-head bad">✗ No Format</div>
+        <div class="compare-code">List programming languages and their uses</div>
+        <div class="compare-why">Will produce a wall of text or inconsistent formatting.</div>
+      </div>
+      <div class="compare-box">
+        <div class="compare-head good">✓ Format Specified</div>
+        <div class="compare-code">List 5 programming languages and their primary use case.
+Format as JSON array:
+[{"language": "...", "use_case": "...", "difficulty": "beginner|intermediate|advanced"}]
+Return only the JSON, no explanation.</div>
+        <div class="compare-why">Predictable, parseable, directly usable output.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 4: EXERCISE -->
+  <div class="lesson-content" id="l2_t4">
+    <div class="exercise" style="border-color:rgba(57,255,20,.25)">
+      <span class="exercise-tag" style="background:rgba(57,255,20,.1);color:#39ff14">// Technique Builder</span>
+      <h4>Combine Techniques</h4>
+      <p>Write a prompt that uses: (1) a role, (2) chain-of-thought, AND (3) a specific output format.</p>
+      <textarea class="ex-prompt-area" id="combo_input" placeholder="You are a [ROLE]...&#10;&#10;Think step by step...&#10;&#10;Output format: ..." style="min-height:140px"></textarea>
+      <div class="ex-actions">
+        <button class="btn primary" style="background:linear-gradient(135deg,#39ff14,#00aa44);color:#0a0a0f" onclick="runCombo()">▶ Test Combination</button>
+        <button class="btn" onclick="scoreCombo()">📊 Score</button>
+      </div>
+      <div class="ex-output" id="combo_output"></div>
+      <div class="ex-feedback" id="combo_feedback"></div>
+    </div>
+  </div>
+
+  <!-- TAB 5: QUIZ -->
+  <div class="lesson-content" id="l2_t5">
+    <div class="section-title">// Level 2 Quiz</div>
+    <div class="quiz-q" id="q2_1">
+      <h4>Q1: Few-shot prompting means...</h4>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answerQuiz('q2_1',0,1,'Correct! Few-shot provides multiple input/output examples to guide the model.')">Using very few words in your prompt</button>
+        <button class="quiz-opt" onclick="answerQuiz('q2_1',1,1,'Correct! Few-shot provides multiple input/output examples to guide the model.')">Providing 3-5 examples of desired input/output pairs</button>
+        <button class="quiz-opt" onclick="answerQuiz('q2_1',2,1,'Correct! Few-shot provides multiple input/output examples to guide the model.')">Asking the model multiple quick questions</button>
+        <button class="quiz-opt" onclick="answerQuiz('q2_1',3,1,'Correct! Few-shot provides multiple input/output examples to guide the model.')">Setting the temperature low</button>
+      </div>
+      <div class="quiz-explain" id="q2_1_ex"></div>
+    </div>
+    <div class="quiz-q" id="q2_2">
+      <h4>Q2: Chain-of-Thought prompting is most useful for...</h4>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answerQuiz('q2_2',0,1,'Right! CoT shines on multi-step reasoning, math, and logic where showing work prevents errors.')">Simple factual lookups</button>
+        <button class="quiz-opt" onclick="answerQuiz('q2_2',1,1,'Right! CoT shines on multi-step reasoning, math, and logic where showing work prevents errors.')">Math, logic, and multi-step reasoning tasks</button>
+        <button class="quiz-opt" onclick="answerQuiz('q2_2',2,1,'Right! CoT shines on multi-step reasoning, math, and logic where showing work prevents errors.')">Writing creative fiction</button>
+        <button class="quiz-opt" onclick="answerQuiz('q2_2',3,1,'Right! CoT shines on multi-step reasoning, math, and logic where showing work prevents errors.')">Translating short phrases</button>
+      </div>
+      <div class="quiz-explain" id="q2_2_ex"></div>
+    </div>
+  </div>
+
+  <div class="level-footer">
+    <a href="level1.html" class="footer-prev">← Level 1: Basics</a>
+    <a href="level3.html" class="footer-next">Level 3: Patterns →</a>
+  </div>
+</div>
+
+<script src="shared.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>saveProgress('l2_t0_done',true));</script>
+</body>
+</html>

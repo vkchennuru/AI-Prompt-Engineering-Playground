@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this resource in your teaching, research, or publications, please cite it as below."
+type: software
+title: "AI Prompt Engineering Playground"
+abstract: "A free, interactive, browser-based Open Educational Resource (OER) for learning AI Prompt Engineering. Features 6 progressive levels, 100+ hands-on exercises, a pattern library, token counter, A/B testing tool, and knowledge quizzes — all without requiring sign-up or payment."
+authors:
+  - family-names: "Chennuru"
+    given-names: "Venkata Krishnaveni"
+    affiliation: "SKR & SKR Government College for Women (Autonomous), Kadapa, India"
+    email: ""
+repository-code: "https://github.com/YOUR-USERNAME/prompt-engineering-playground"
+url: "https://YOUR-USERNAME.github.io/prompt-engineering-playground/"
+license: MIT
+version: "1.0.0"
+date-released: "2025-01-01"
+keywords:
+  - prompt engineering
+  - artificial intelligence
+  - large language models
+  - open educational resource
+  - OER
+  - interactive learning
+  - AI education
+  - LLM
+  - ChatGPT
+  - Claude
+  - chain-of-thought
+  - few-shot learning

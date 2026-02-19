@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level 4: Prompt Optimization — AI Prompt Engineering Playground</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  .level-hero h1{background:linear-gradient(135deg,#fff 30%,#ff7c2a);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .tab.active{background:rgba(255,124,42,.15)!important;border-color:rgba(255,124,42,.4)!important;color:#ff7c2a!important}
+  .progress-bar{background:linear-gradient(90deg,#ff7c2a,#ea580c)}
+  .nav-level-badge{background:rgba(255,124,42,.12);color:#ff7c2a;border:1px solid rgba(255,124,42,.3)}
+</style>
+</head>
+<body>
+<div class="particles" id="particles"></div>
+<div class="bg-blobs"></div>
+
+<nav>
+  <div class="nav-left">
+    <a href="index.html" class="nav-home">← Home</a>
+    <span class="nav-level-badge">LEVEL 4</span>
+    <span class="nav-title-text">Prompt Optimization</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-progress-text" id="nav-progress-label">0/30 completed</span>
+  </div>
+</nav>
+<div class="progress-bar" id="progress-bar" style="width:0%"></div>
+
+<section class="level-hero">
+  <div class="level-hero-tag">⚡ Level 4 · 10–12 hours · Advanced</div>
+  <h1>Prompt Optimization</h1>
+  <p>Making Prompts Better & Faster — learn token efficiency, A/B testing, debugging, and cost reduction strategies.</p>
+  <div class="topic-pills">
+    <span class="topic-pill">Token Optimization</span>
+    <span class="topic-pill">Cost Reduction</span>
+    <span class="topic-pill">A/B Testing</span>
+    <span class="topic-pill">Debugging</span>
+    <span class="topic-pill">Edge Cases</span>
+  </div>
+</section>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab(4,0,this)">⚡ Token Efficiency</button>
+    <button class="tab" onclick="switchTab(4,1,this)">🔬 A/B Testing</button>
+    <button class="tab" onclick="switchTab(4,2,this)">🐛 Debugging Guide</button>
+    <button class="tab" onclick="switchTab(4,3,this)">🔢 Token Counter</button>
+    <button class="tab" onclick="switchTab(4,4,this)">❓ Quiz</button>
+  </div>
+
+  <!-- TAB 0: TOKEN EFFICIENCY -->
+  <div class="lesson-content active" id="l4_t0">
+    <div class="concept-block">
+      <h3>Token Efficiency</h3>
+      <p>Tokens are the units LLMs process. Every API call costs tokens. Efficient prompts maintain quality while reducing token use.</p>
+    </div>
+    <div class="cheat-grid">
+      <div class="cheat-item"><div class="ci-label">~1 token =</div><div class="ci-val">~4 characters or ~0.75 words in English</div></div>
+      <div class="cheat-item"><div class="ci-label">Typical prompt</div><div class="ci-val">100–500 tokens</div></div>
+      <div class="cheat-item"><div class="ci-label">Long document</div><div class="ci-val">~750 words ≈ 1,000 tokens</div></div>
+      <div class="cheat-item"><div class="ci-label">Context window</div><div class="ci-val">GPT-4: 128k, Claude: 200k tokens</div></div>
+    </div>
+    <div class="concept-block">
+      <h3>Token Reduction Techniques</h3>
+      <ul>
+        <li><strong>Remove filler phrases</strong> — "Please could you kindly..." → "Write..."</li>
+        <li><strong>Use abbreviations in system prompts</strong> — Abbreviate commonly repeated terms</li>
+        <li><strong>Specify "no preamble"</strong> — "Do not start with 'Sure!' or 'Certainly!'"</li>
+        <li><strong>Use structured delimiters</strong> — XML tags instead of verbose descriptions</li>
+        <li><strong>Compress examples</strong> — Use the minimum examples needed (1 often beats 3)</li>
+      </ul>
+    </div>
+    <div class="token-counter">
+      <div style="margin-bottom:.8rem;font-size:.88rem;font-weight:700;color:#fff">⚡ Token Counter</div>
+      <textarea class="ex-prompt-area" id="token_input" oninput="countTokens()" placeholder="Type or paste your prompt here to count tokens..." style="min-height:80px;margin-bottom:.8rem"></textarea>
+      <div class="tc-row">
+        <div class="tc-metric"><div class="tc-num" id="tc_chars">0</div><div class="tc-lbl">Characters</div></div>
+        <div class="tc-metric"><div class="tc-num" id="tc_words">0</div><div class="tc-lbl">Words</div></div>
+        <div class="tc-metric"><div class="tc-num" id="tc_tokens" style="color:#ff7c2a">0</div><div class="tc-lbl">Est. Tokens</div></div>
+        <div class="tc-metric"><div class="tc-num" id="tc_cost" style="color:#39ff14">$0.000</div><div class="tc-lbl">Est. Cost*</div></div>
+      </div>
+      <div style="font-size:.72rem;color:rgba(255,255,255,.35);margin-top:.5rem">*Based on GPT-4o at $0.005/1K tokens (input)</div>
+    </div>
+  </div>
+
+  <!-- TAB 1: A/B TESTING -->
+  <div class="lesson-content" id="l4_t1">
+    <div class="concept-block">
+      <h3>A/B Testing Your Prompts</h3>
+      <p>Never assume your first prompt is optimal. Systematic A/B testing reveals which prompts consistently produce better outputs.</p>
+    </div>
+    <div class="concept-block">
+      <h3>A/B Testing Framework</h3>
+      <div class="cheat-grid">
+        <div class="cheat-item"><div class="ci-label">Step 1</div><div class="ci-val">Define your quality metric (accuracy, format, tone, completeness)</div></div>
+        <div class="cheat-item"><div class="ci-label">Step 2</div><div class="ci-val">Create Prompt A (baseline) and Prompt B (variant)</div></div>
+        <div class="cheat-item"><div class="ci-label">Step 3</div><div class="ci-val">Run both on 10+ identical inputs</div></div>
+        <div class="cheat-item"><div class="ci-label">Step 4</div><div class="ci-val">Score outputs against your metric</div></div>
+        <div class="cheat-item"><div class="ci-label">Step 5</div><div class="ci-val">Winner becomes new baseline, iterate</div></div>
+      </div>
+    </div>
+    <div class="exercise" style="border-color:rgba(255,124,42,.2)">
+      <span class="exercise-tag" style="background:rgba(255,124,42,.1);color:#ff7c2a">// A/B Comparison Tool</span>
+      <h4>Compare Two Prompts Side-by-Side</h4>
+      <div class="ab-grid" style="margin-bottom:10px">
+        <div>
+          <div class="ab-label">PROMPT A</div>
+          <textarea class="ex-prompt-area" id="ab_a" style="min-height:100px" placeholder="Your baseline prompt..."></textarea>
+        </div>
+        <div>
+          <div class="ab-label">PROMPT B</div>
+          <textarea class="ex-prompt-area" id="ab_b" style="min-height:100px" placeholder="Your variant prompt..."></textarea>
+        </div>
+      </div>
+      <button class="btn primary" style="background:linear-gradient(135deg,#ff7c2a,#ea580c)" onclick="runAB()">▶ Compare Both</button>
+      <div class="ab-grid" style="margin-top:10px">
+        <div class="ex-output" id="ab_a_out" style="display:block;min-height:60px;opacity:.5">A: (waiting)</div>
+        <div class="ex-output" id="ab_b_out" style="display:block;min-height:60px;opacity:.5">B: (waiting)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: DEBUGGING -->
+  <div class="lesson-content" id="l4_t2">
+    <div class="concept-block">
+      <h3>Debugging Bad Responses</h3>
+      <p>When a prompt doesn't work, there's always a reason. Use this diagnostic checklist:</p>
+    </div>
+    <div class="cheat-grid">
+      <div class="cheat-item"><div class="ci-label">❌ Too vague</div><div class="ci-val">Add specificity: length, format, audience, purpose</div></div>
+      <div class="cheat-item"><div class="ci-label">❌ Wrong tone</div><div class="ci-val">Explicitly specify tone + provide example of desired style</div></div>
+      <div class="cheat-item"><div class="ci-label">❌ Wrong format</div><div class="ci-val">Add "Return ONLY as [FORMAT]. No additional text."</div></div>
+      <div class="cheat-item"><div class="ci-label">❌ Hallucinating</div><div class="ci-val">Add "Only use facts from the provided context. Say 'I don't know' if uncertain."</div></div>
+      <div class="cheat-item"><div class="ci-label">❌ Too long</div><div class="ci-val">Specify exact word count and add "Be concise."</div></div>
+      <div class="cheat-item"><div class="ci-label">❌ Misunderstood</div><div class="ci-val">Rephrase as a document beginning the model should complete</div></div>
+    </div>
+    <div class="concept-block">
+      <h3>Debug Prompts</h3>
+      <p>Use these meta-prompts when stuck:</p>
+      <div class="pattern-template">What's wrong with this prompt and how would you improve it?
+[YOUR FAILING PROMPT]</div>
+      <div class="pattern-template" style="margin-top:.8rem">Here's what I'm trying to do: [GOAL]
+Here's the response I got: [BAD OUTPUT]
+Here's what I actually wanted: [DESIRED OUTPUT]
+How should I rewrite my prompt?</div>
+    </div>
+    <div class="concept-block">
+      <h3>⚡ Token Optimizer Lab</h3>
+      <p style="color:rgba(255,255,255,.6);font-size:.88rem;margin-bottom:1rem">Paste a verbose prompt, see its token count, then optimize it. Good optimization reduces tokens by 20-40% while maintaining quality.</p>
+      <div class="ab-grid">
+        <div>
+          <div class="ab-label">ORIGINAL (verbose)</div>
+          <textarea class="ex-prompt-area" id="opt_in" oninput="updateOptStats()" placeholder="Paste your original prompt here..." style="min-height:120px"></textarea>
+          <div style="font-family:monospace;font-size:.74rem;color:rgba(255,255,255,.4);margin-top:4px">Tokens: <span id="opt_in_t" style="color:#ff7c2a">0</span></div>
+        </div>
+        <div>
+          <div class="ab-label">OPTIMIZED</div>
+          <textarea class="ex-prompt-area" id="opt_out" oninput="updateOptStats()" placeholder="Write your optimized version here..." style="min-height:120px"></textarea>
+          <div style="font-family:monospace;font-size:.74rem;color:rgba(255,255,255,.4);margin-top:4px">Tokens: <span id="opt_out_t" style="color:#39ff14">0</span> · Saved: <span id="opt_saved" style="color:#39ff14">0%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: TOKEN COUNTER -->
+  <div class="lesson-content" id="l4_t3">
+    <div class="token-counter">
+      <h3 style="margin-bottom:1rem;font-size:1rem;font-weight:700;color:#fff">⚡ Advanced Token Counter & Cost Estimator</h3>
+      <p style="color:rgba(255,255,255,.6);font-size:.88rem;margin-bottom:1rem">Understand the cost of every prompt. Paste any text and see real-time estimates.</p>
+      <textarea class="ex-prompt-area" id="token_input" oninput="countTokens()" placeholder="Paste your full prompt here (including system prompt if applicable)..." style="min-height:140px;margin-bottom:.8rem"></textarea>
+      <div class="tc-row">
+        <div class="tc-metric"><div class="tc-num" id="tc_chars">0</div><div class="tc-lbl">Characters</div></div>
+        <div class="tc-metric"><div class="tc-num" id="tc_words">0</div><div class="tc-lbl">Words</div></div>
+        <div class="tc-metric"><div class="tc-num" id="tc_tokens" style="color:#ff7c2a">0</div><div class="tc-lbl">Est. Tokens</div></div>
+        <div class="tc-metric"><div class="tc-num" id="tc_cost" style="color:#39ff14">$0.000</div><div class="tc-lbl">Est. Cost*</div></div>
+      </div>
+      <div style="font-size:.72rem;color:rgba(255,255,255,.3);margin-top:.5rem">*Based on GPT-4o at $0.005/1K tokens. Actual tokenization may vary by model.</div>
+    </div>
+  </div>
+
+  <!-- TAB 4: QUIZ -->
+  <div class="lesson-content" id="l4_t4">
+    <div class="section-title">// Level 4 Quiz</div>
+    <div class="quiz-q" id="q4_1">
+      <h4>Q1: What is the best way to eliminate unwanted preamble like "Sure! I'd be happy to help..."?</h4>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answerQuiz('q4_1',0,1,'Correct! Explicit negative instructions prevent the model from adding filler phrases.')">Use fewer tokens in your prompt</button>
+        <button class="quiz-opt" onclick="answerQuiz('q4_1',1,1,'Correct! Explicit negative instructions prevent the model from adding filler phrases.')">Add: "Do not start with affirmations. Begin your response directly."</button>
+        <button class="quiz-opt" onclick="answerQuiz('q4_1',2,1,'Correct! Explicit negative instructions prevent the model from adding filler phrases.')">Ask the model to be more formal</button>
+        <button class="quiz-opt" onclick="answerQuiz('q4_1',3,1,'Correct! Explicit negative instructions prevent the model from adding filler phrases.')">Use zero-shot instead of few-shot</button>
+      </div>
+      <div class="quiz-explain" id="q4_1_ex"></div>
+    </div>
+    <div class="quiz-q" id="q4_2">
+      <h4>Q2: Approximately how many tokens is 750 words?</h4>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answerQuiz('q4_2',0,1,'Correct! The standard rule is ~750 words ≈ 1,000 tokens, or ~0.75 words per token.')">250 tokens</button>
+        <button class="quiz-opt" onclick="answerQuiz('q4_2',1,1,'Correct! The standard rule is ~750 words ≈ 1,000 tokens, or ~0.75 words per token.')">~1,000 tokens</button>
+        <button class="quiz-opt" onclick="answerQuiz('q4_2',2,1,'Correct! The standard rule is ~750 words ≈ 1,000 tokens, or ~0.75 words per token.')">5,000 tokens</button>
+        <button class="quiz-opt" onclick="answerQuiz('q4_2',3,1,'Correct! The standard rule is ~750 words ≈ 1,000 tokens, or ~0.75 words per token.')">100 tokens</button>
+      </div>
+      <div class="quiz-explain" id="q4_2_ex"></div>
+    </div>
+  </div>
+
+  <div class="level-footer">
+    <a href="level3.html" class="footer-prev">← Level 3: Patterns</a>
+    <a href="level5.html" class="footer-next">Level 5: Applications →</a>
+  </div>
+</div>
+
+<script src="shared.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>saveProgress('l4_t0_done',true));</script>
+</body>
+</html>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Prompt Engineering Playground — Free OER by Venkata Krishnaveni Chennuru</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b001a;
+    --surface: rgba(255,255,255,0.05);
+    --surface2: rgba(255,255,255,0.08);
+    --border: rgba(255,255,255,0.1);
+    --text: #ffffff;
+    --muted: #aab0bc;
+    --l1: #00bfff; --l2: #39ff14; --l3: #bf5fff;
+    --l4: #ff7c2a; --l5: #ff4466; --l6: #ffd700;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Sora',sans-serif;
+    min-height:100vh;
+    color:#fff;
+    background:radial-gradient(ellipse at 20% 20%,#2a0055 0%,#0b001a 60%),
+               radial-gradient(ellipse at 80% 80%,#001a44 0%,transparent 60%);
+    overflow-x:hidden;
+  }
+  /* PARTICLES */
+  .particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+  .particles span{position:absolute;width:4px;height:4px;background:#00ffff;border-radius:50%;
+    animation:floatUp linear infinite;opacity:0}
+  @keyframes floatUp{0%{transform:translateY(100vh);opacity:0}10%{opacity:.5}90%{opacity:.3}100%{transform:translateY(-10vh);opacity:0}}
+  .bg-blobs{position:fixed;width:100%;height:100%;z-index:0;overflow:hidden;top:0;left:0;pointer-events:none}
+  .bg-blobs::before,.bg-blobs::after{content:'';position:absolute;width:500px;height:500px;
+    background:radial-gradient(circle,rgba(37,99,235,.12),transparent 70%);
+    border-radius:50%;animation:floatBlob 20s infinite alternate ease-in-out}
+  .bg-blobs::after{right:-100px;bottom:-100px;animation-delay:8s;
+    background:radial-gradient(circle,rgba(147,51,234,.1),transparent 70%)}
+  @keyframes floatBlob{from{transform:translateY(0) translateX(0)}to{transform:translateY(-80px) translateX(60px)}}
+  /* NAV */
+  nav{
+    position:sticky;top:0;z-index:100;
+    background:linear-gradient(135deg,rgba(20,0,50,.96),rgba(40,0,80,.92));
+    backdrop-filter:blur(16px);
+    border-bottom:1px solid rgba(0,255,255,.2);
+    box-shadow:0 4px 30px rgba(0,0,0,.4);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 2.5rem;height:64px;
+  }
+  .nav-logo-wrap{display:flex;align-items:center;gap:12px}
+  .nav-brain{font-size:28px;animation:floatBrain 3s ease-in-out infinite}
+  @keyframes floatBrain{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  .nav-title{
+    font-size:17px;font-weight:700;letter-spacing:.5px;
+    background:linear-gradient(90deg,#fff,#00ffff);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .nav-sub{font-size:11px;color:#aabbff;margin-top:1px}
+  .marquee-wrap{overflow:hidden;white-space:nowrap;width:340px;display:none}
+  @media(min-width:800px){.marquee-wrap{display:block}}
+  .marquee-inner{
+    display:inline-block;padding-left:110%;
+    font-size:13px;font-weight:600;letter-spacing:.5px;
+    background:linear-gradient(90deg,#00ffff,#ff00ff,#00ffff);background-size:200% auto;
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    animation:scrollLeft 22s linear infinite,gradientMove 6s linear infinite;
+  }
+  @keyframes scrollLeft{from{transform:translateX(0)}to{transform:translateX(-100%)}}
+  @keyframes gradientMove{0%{background-position:0% center}100%{background-position:200% center}}
+  .nav-github{
+    display:flex;align-items:center;gap:6px;
+    font-size:13px;font-weight:600;color:#ffd700;text-decoration:none;
+    border:1px solid rgba(255,215,0,.3);padding:6px 14px;border-radius:8px;
+    transition:.2s;
+  }
+  .nav-github:hover{background:rgba(255,215,0,.1);transform:translateY(-1px)}
+  .progress-bar{
+    position:fixed;top:64px;left:0;height:3px;z-index:101;
+    background:linear-gradient(90deg,#00bfff,#39ff14,#bf5fff,#ff7c2a,#ff4466,#ffd700);
+    transition:width .4s ease;
+  }
+  /* HERO */
+  .hero{
+    padding:8rem 2rem 5rem;text-align:center;
+    position:relative;z-index:1;
+  }
+  .hero-tag{
+    display:inline-block;font-family:'Space Mono',monospace;
+    font-size:.7rem;letter-spacing:.2em;color:#ffd700;
+    border:1px solid rgba(255,215,0,.35);padding:5px 18px;
+    border-radius:100px;margin-bottom:2rem;text-transform:uppercase;
+    background:rgba(255,215,0,.05);
+  }
+  .hero h1{
+    font-size:clamp(2.6rem,7vw,5rem);font-weight:800;line-height:1.1;
+    background:linear-gradient(135deg,#fff 30%,#00ffff 60%,#ff00ff);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    filter:drop-shadow(0 0 30px rgba(0,255,255,.3));
+    margin-bottom:1.5rem;
+  }
+  .hero h1 em{font-style:normal;
+    background:linear-gradient(90deg,#00ffff,#bf5fff,#ffd700);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .hero-desc{
+    font-size:1.15rem;color:rgba(255,255,255,.8);
+    max-width:600px;margin:0 auto 3rem;line-height:1.7;
+  }
+  .hero-stats{
+    display:flex;gap:3rem;justify-content:center;flex-wrap:wrap;margin-bottom:3.5rem;
+  }
+  .stat-n{
+    font-size:3rem;font-weight:800;
+    background:linear-gradient(90deg,#fff176,#ffd700,#ff9800);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .stat-l{font-size:.95rem;color:rgba(255,255,255,.7);font-weight:600;margin-top:2px}
+  .btn-start{
+    display:inline-flex;align-items:center;gap:10px;
+    background:linear-gradient(135deg,#00bfff,#bf5fff);
+    border:none;padding:16px 40px;border-radius:14px;
+    font-family:'Sora',sans-serif;font-size:1.05rem;font-weight:700;
+    color:#fff;cursor:pointer;transition:.3s;
+    box-shadow:0 8px 30px rgba(0,191,255,.3);
+  }
+  .btn-start:hover{transform:translateY(-3px);box-shadow:0 15px 40px rgba(0,191,255,.5)}
+  /* SECTION */
+  .section-label{
+    font-size:.95rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;
+    text-align:center;margin-bottom:60px;
+    background:linear-gradient(90deg,#00ffff,#ff00ff);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .level-map{padding:4rem 2rem 6rem;max-width:1200px;margin:0 auto;position:relative;z-index:1}
+  /* CARDS */
+  .levels-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:28px;
+    max-width:1200px;margin:0 auto;
+  }
+  @media(max-width:1000px){.levels-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:640px){.levels-grid{grid-template-columns:1fr}}
+  .level-card{
+    background:linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:22px;padding:2rem 1.8rem;
+    cursor:pointer;transition:.3s ease;position:relative;overflow:hidden;
+    text-decoration:none;display:block;color:#fff;
+  }
+  .level-card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:3px;
+    border-radius:22px 22px 0 0;
+  }
+  .level-card[data-l="1"]::before{background:linear-gradient(90deg,#00bfff,#0066ff)}
+  .level-card[data-l="2"]::before{background:linear-gradient(90deg,#39ff14,#00aa44)}
+  .level-card[data-l="3"]::before{background:linear-gradient(90deg,#bf5fff,#7c3aed)}
+  .level-card[data-l="4"]::before{background:linear-gradient(90deg,#ff7c2a,#ea580c)}
+  .level-card[data-l="5"]::before{background:linear-gradient(90deg,#ff4466,#dc2626)}
+  .level-card[data-l="6"]::before{background:linear-gradient(90deg,#ffd700,#f59e0b)}
+  .level-card:hover{
+    transform:translateY(-8px);
+    border-color:rgba(255,255,255,.25);
+    box-shadow:0 20px 50px rgba(0,0,0,.4);
+  }
+  .level-card[data-l="1"]:hover{box-shadow:0 20px 50px rgba(0,191,255,.2)}
+  .level-card[data-l="2"]:hover{box-shadow:0 20px 50px rgba(57,255,20,.15)}
+  .level-card[data-l="3"]:hover{box-shadow:0 20px 50px rgba(191,95,255,.2)}
+  .level-card[data-l="4"]:hover{box-shadow:0 20px 50px rgba(255,124,42,.2)}
+  .level-card[data-l="5"]:hover{box-shadow:0 20px 50px rgba(255,68,102,.2)}
+  .level-card[data-l="6"]:hover{box-shadow:0 20px 50px rgba(255,215,0,.2)}
+  .lc-header{display:flex;align-items:center;gap:10px;margin-bottom:.6rem}
+  .lc-icon{font-size:2.2rem}
+  .lc-num{
+    font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;
+    padding:3px 9px;border-radius:5px;letter-spacing:.1em;background:rgba(255,255,255,.1);
+  }
+  .level-card[data-l="1"] .lc-num{color:#00bfff;background:rgba(0,191,255,.15)}
+  .level-card[data-l="2"] .lc-num{color:#39ff14;background:rgba(57,255,20,.12)}
+  .level-card[data-l="3"] .lc-num{color:#bf5fff;background:rgba(191,95,255,.12)}
+  .level-card[data-l="4"] .lc-num{color:#ff7c2a;background:rgba(255,124,42,.12)}
+  .level-card[data-l="5"] .lc-num{color:#ff4466;background:rgba(255,68,102,.12)}
+  .level-card[data-l="6"] .lc-num{color:#ffd700;background:rgba(255,215,0,.12)}
+  .lc-title{font-size:1.25rem;font-weight:800;color:#fff;margin-bottom:.35rem}
+  .lc-sub{font-size:.83rem;color:rgba(255,255,255,.6);margin-bottom:1rem;line-height:1.5}
+  .lc-topics{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:1.4rem}
+  .topic-tag{
+    font-size:.68rem;padding:3px 9px;border-radius:5px;
+    border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6);
+    background:rgba(255,255,255,.04);
+  }
+  .lc-footer{display:flex;justify-content:space-between;align-items:center}
+  .lc-time{font-family:'Space Mono',monospace;font-size:.7rem;color:rgba(255,255,255,.5)}
+  .lc-progress{display:flex;gap:4px;align-items:center}
+  .lc-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.15)}
+  .level-card[data-l="1"] .lc-dot.done{background:#00bfff}
+  .level-card[data-l="2"] .lc-dot.done{background:#39ff14}
+  .level-card[data-l="3"] .lc-dot.done{background:#bf5fff}
+  .level-card[data-l="4"] .lc-dot.done{background:#ff7c2a}
+  .level-card[data-l="5"] .lc-dot.done{background:#ff4466}
+  .level-card[data-l="6"] .lc-dot.done{background:#ffd700}
+  .card-cta{
+    display:flex;align-items:center;gap:6px;margin-top:1.5rem;
+    font-size:.85rem;font-weight:700;padding:10px 20px;
+    border-radius:10px;border:none;cursor:pointer;
+    font-family:'Sora',sans-serif;transition:.2s;width:100%;justify-content:center;
+  }
+  .level-card[data-l="1"] .card-cta{background:linear-gradient(135deg,rgba(0,191,255,.2),rgba(0,102,255,.2));color:#00bfff;border:1px solid rgba(0,191,255,.3)}
+  .level-card[data-l="2"] .card-cta{background:linear-gradient(135deg,rgba(57,255,20,.15),rgba(0,170,68,.15));color:#39ff14;border:1px solid rgba(57,255,20,.3)}
+  .level-card[data-l="3"] .card-cta{background:linear-gradient(135deg,rgba(191,95,255,.2),rgba(124,58,237,.2));color:#bf5fff;border:1px solid rgba(191,95,255,.3)}
+  .level-card[data-l="4"] .card-cta{background:linear-gradient(135deg,rgba(255,124,42,.2),rgba(234,88,12,.2));color:#ff7c2a;border:1px solid rgba(255,124,42,.3)}
+  .level-card[data-l="5"] .card-cta{background:linear-gradient(135deg,rgba(255,68,102,.2),rgba(220,38,38,.2));color:#ff4466;border:1px solid rgba(255,68,102,.3)}
+  .level-card[data-l="6"] .card-cta{background:linear-gradient(135deg,rgba(255,215,0,.2),rgba(245,158,11,.2));color:#ffd700;border:1px solid rgba(255,215,0,.3)}
+  .card-cta:hover{opacity:.85;transform:translateY(-1px)}
+  /* FEATURE ROW */
+  .features{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:20px;max-width:1000px;margin:0 auto 5rem;padding:0 2rem;
+    position:relative;z-index:1;
+  }
+  .feature{
+    background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+    border-radius:16px;padding:1.5rem;text-align:center;
+  }
+  .feature-icon{font-size:2.2rem;margin-bottom:.8rem}
+  .feature-title{font-size:.95rem;font-weight:700;color:#fff;margin-bottom:.4rem}
+  .feature-desc{font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.5}
+  /* FOOTER */
+  footer{
+    background:linear-gradient(180deg,rgba(20,0,43,.95),rgba(5,0,15,1));
+    border-top:1px solid rgba(255,255,255,.07);
+    padding:60px 10% 30px;text-align:center;position:relative;z-index:1;
+  }
+  .footer-name{font-size:1.3rem;font-weight:700;color:#00ffff;margin-bottom:12px}
+  .footer-info{color:rgba(255,255,255,.65);line-height:1.7;margin-bottom:1.5rem;font-size:.9rem}
+  .footer-links{margin-bottom:2rem}
+  .footer-links a{
+    color:#ffd700;margin:0 16px;text-decoration:none;
+    font-weight:600;font-size:.9rem;transition:.2s;
+  }
+  .footer-links a:hover{color:#fff}
+  .footer-license{
+    max-width:650px;margin:0 auto 2.5rem;
+    color:rgba(255,255,255,.4);font-size:.83rem;line-height:1.8;
+  }
+  .license-title{display:block;color:#ffd700;font-weight:700;margin-bottom:8px;letter-spacing:1px}
+  .footer-bottom{
+    border-top:1px solid rgba(255,255,255,.07);padding-top:1.2rem;
+    font-size:.8rem;color:rgba(255,255,255,.3);
+  }
+  @keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  .fadeIn{animation:fadeIn .5s ease forwards}
+</style>
+</head>
+<body>
+<div class="particles" id="particles"></div>
+<div class="bg-blobs"></div>
+
+<nav>
+  <div class="nav-logo-wrap">
+    <span class="nav-brain">🧠</span>
+    <div>
+      <div class="nav-title">Prompt Engineering Playground</div>
+      <div class="nav-sub">Open Educational Resource · MIT License</div>
+    </div>
+  </div>
+  <div class="marquee-wrap">
+    <div class="marquee-inner">⚡ Free · Interactive · 6 Levels · 70+ Hours · No Sign-up Required · Learn AI Prompt Engineering</div>
+  </div>
+  <a href="https://github.com/" target="_blank" class="nav-github">⭐ GitHub</a>
+</nav>
+<div class="progress-bar" id="progress-bar" style="width:0%"></div>
+
+<section class="hero fadeIn">
+  <div class="hero-tag">🎓 Free · Open Source · MIT License · OER</div>
+  <h1>AI Prompt Engineering<br><em>Playground</em></h1>
+  <p class="hero-desc">A structured, interactive journey from complete beginner to production-ready expert. 6 levels · 70+ hours · 100+ exercises · Zero cost.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-n">6</div><div class="stat-l">Levels</div></div>
+    <div class="stat"><div class="stat-n">70+</div><div class="stat-l">Hours</div></div>
+    <div class="stat"><div class="stat-n">100+</div><div class="stat-l">Exercises</div></div>
+    <div class="stat"><div class="stat-n">0</div><div class="stat-l">Cost</div></div>
+  </div>
+  <a href="level1.html" class="btn-start">▶ Start Learning — Level 1</a>
+</section>
+
+<div class="features">
+  <div class="feature"><div class="feature-icon">🎯</div><div class="feature-title">Hands-On Exercises</div><div class="feature-desc">Interactive prompt labs with real-time feedback and scoring</div></div>
+  <div class="feature"><div class="feature-icon">📊</div><div class="feature-title">Progress Tracking</div><div class="feature-desc">Your progress is saved locally — pick up where you left off</div></div>
+  <div class="feature"><div class="feature-icon">📚</div><div class="feature-title">Pattern Library</div><div class="feature-desc">Reusable templates for every use case — copy and apply instantly</div></div>
+  <div class="feature"><div class="feature-icon">🆓</div><div class="feature-title">Completely Free</div><div class="feature-desc">No sign-up, no paywall. MIT licensed. Use and share freely.</div></div>
+</div>
+
+<section class="level-map">
+  <h2 class="section-label">// CHOOSE YOUR LEVEL</h2>
+  <div class="levels-grid" id="levels-grid"></div>
+</section>
+
+<footer>
+  <div class="footer-name">Created by Venkata Krishnaveni Chennuru</div>
+  <p class="footer-info">
+    Faculty, Department of Computer Science<br>
+    SKR &amp; SKR Government College for Women (Autonomous), Kadapa, India<br>
+    An Open Educational Resource for learners worldwide
+  </p>
+  <div class="footer-links">
+    <a href="mailto:">Email</a>
+    <a href="https://github.com/" target="_blank">GitHub</a>
+    <a href="https://linkedin.com/" target="_blank">LinkedIn</a>
+  </div>
+  <div class="footer-license">
+    <span class="license-title">MIT License</span>
+    Copyright © 2025 Venkata Krishnaveni Chennuru. Permission is hereby granted, free of charge, to any person obtaining a copy of this software to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies.
+  </div>
+  <div class="footer-bottom">© 2025 Venkata Krishnaveni Chennuru — MIT Licensed — Built for Education</div>
+</footer>
+
+<script>
+const LEVELS = [
+  {id:1,icon:'💬',color:'#00bfff',title:'Prompt Basics',theme:'Understanding How to Talk to AI',time:'8–10 hrs',href:'level1.html',topics:['LLM Fundamentals','Prompt Structure','Clear vs Vague','Question Types','Better Responses']},
+  {id:2,icon:'🛠️',color:'#39ff14',title:'Prompt Techniques',theme:'Advanced Prompting Strategies',time:'10–12 hrs',href:'level2.html',topics:['Zero/Few-Shot','Chain-of-Thought','Role Prompting','Format Control','System Messages']},
+  {id:3,icon:'🎨',color:'#bf5fff',title:'Prompt Patterns',theme:'Reusable Prompt Templates',time:'12–15 hrs',href:'level3.html',topics:['Persona Patterns','Template Patterns','Recipe Patterns','Meta-prompting','Prompt Chaining']},
+  {id:4,icon:'⚡',color:'#ff7c2a',title:'Prompt Optimization',theme:'Making Prompts Better & Faster',time:'10–12 hrs',href:'level4.html',topics:['Token Optimization','Cost Reduction','A/B Testing','Debugging','Edge Cases']},
+  {id:5,icon:'🎯',color:'#ff4466',title:'Domain Applications',theme:'Real-World Use Cases',time:'15–18 hrs',href:'level5.html',topics:['Code Generation','Content Creation','Data Analysis','Education','Business']},
+  {id:6,icon:'🏆',color:'#ffd700',title:'Mastery',theme:'Advanced Topics & Best Practices',time:'15–18 hrs',href:'level6.html',topics:['Safety & Ethics','Prompt Injection','RAG Patterns','Production','Evaluation']},
+];
+
+let progress = JSON.parse(localStorage.getItem('pe_progress')||'{}');
+
+function renderGrid(){
+  const grid=document.getElementById('levels-grid');
+  grid.innerHTML=LEVELS.map(l=>{
+    const doneCount=[0,1,2,3,4].filter(t=>progress[`l${l.id}_t${t}_done`]).length;
+    const pct=Math.round(doneCount/5*100);
+    const dots=[0,1,2,3,4].map(t=>`<div class="lc-dot${progress[`l${l.id}_t${t}_done`]?' done':''}"></div>`).join('');
+    return `<a class="level-card fadeIn" data-l="${l.id}" href="${l.href}">
+      <div class="lc-header">
+        <span class="lc-icon">${l.icon}</span>
+        <span class="lc-num">LEVEL ${l.id}</span>
+        ${doneCount===5?'<span style="font-size:.72rem;color:#68d391;margin-left:auto">✓ Complete</span>':''}
+      </div>
+      <div class="lc-title">${l.title}</div>
+      <div class="lc-sub">${l.theme}</div>
+      <div class="lc-topics">${l.topics.map(t=>`<span class="topic-tag">${t}</span>`).join('')}</div>
+      <div class="lc-footer">
+        <span class="lc-time">⏱ ${l.time}</span>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="lc-progress">${dots}</div>
+          <span style="font-family:'Space Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.45)">${pct}%</span>
+        </div>
+      </div>
+      <div class="card-cta">Start Level ${l.id} →</div>
+    </a>`;
+  }).join('');
+  // progress bar
+  let done=0;
+  LEVELS.forEach(l=>{for(let t=0;t<5;t++){if(progress[`l${l.id}_t${t}_done`])done++;}});
+  document.getElementById('progress-bar').style.width=(done/30*100)+'%';
+}
+
+// Particles
+const pEl=document.getElementById('particles');
+for(let i=0;i<10;i++){
+  const s=document.createElement('span');
+  s.style.left=Math.random()*100+'%';
+  s.style.animationDuration=(14+Math.random()*18)+'s';
+  s.style.animationDelay=(Math.random()*15)+'s';
+  s.style.width=s.style.height=(3+Math.random()*5)+'px';
+  pEl.appendChild(s);
+}
+renderGrid();
+</script>
+</body>
+</html>

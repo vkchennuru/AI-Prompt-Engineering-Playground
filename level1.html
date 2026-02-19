@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level 1: Prompt Basics — AI Prompt Engineering Playground</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  .level-hero h1{background:linear-gradient(135deg,#fff 30%,#00bfff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .tab.active{background:rgba(0,191,255,.15)!important;border-color:rgba(0,191,255,.4)!important;color:#00bfff!important}
+  .progress-bar{background:linear-gradient(90deg,#00bfff,#0066ff)}
+  .nav-level-badge{background:rgba(0,191,255,.15);color:#00bfff;border:1px solid rgba(0,191,255,.3)}
+</style>
+</head>
+<body>
+<div class="particles" id="particles"></div>
+<div class="bg-blobs"></div>
+
+<nav>
+  <div class="nav-left">
+    <a href="index.html" class="nav-home">← Home</a>
+    <span class="nav-level-badge">LEVEL 1</span>
+    <span class="nav-title-text">Prompt Basics</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-progress-text" id="nav-progress-label">0/30 completed</span>
+  </div>
+</nav>
+<div class="progress-bar" id="progress-bar" style="width:0%"></div>
+
+<!-- HERO -->
+<section class="level-hero">
+  <div class="level-hero-tag">💬 Level 1 · 8–10 hours · Beginner</div>
+  <h1>Prompt Basics</h1>
+  <p>Understanding How to Talk to AI — learn the fundamentals of crafting effective prompts from the ground up.</p>
+  <div class="topic-pills">
+    <span class="topic-pill">LLM Fundamentals</span>
+    <span class="topic-pill">Prompt Structure</span>
+    <span class="topic-pill">Clear vs Vague</span>
+    <span class="topic-pill">Question Types</span>
+    <span class="topic-pill">Better Responses</span>
+  </div>
+</section>
+
+<!-- TABS -->
+<div class="tabs-wrap">
+  <div class="tabs" id="tabs">
+    <button class="tab active" onclick="switchTab(1,0,this)">📖 Fundamentals</button>
+    <button class="tab" onclick="switchTab(1,1,this)">⚖️ Clear vs Vague</button>
+    <button class="tab" onclick="switchTab(1,2,this)">🏗️ Structure Guide</button>
+    <button class="tab" onclick="switchTab(1,3,this)">🎯 Exercise</button>
+    <button class="tab" onclick="switchTab(1,4,this)">❓ Quiz</button>
+  </div>
+
+  <!-- TAB 0: FUNDAMENTALS -->
+  <div class="lesson-content active" id="l1_t0">
+    <div class="concept-block">
+      <h3>What is a Prompt?</h3>
+      <p>A <strong>prompt</strong> is any text you send to an LLM (Large Language Model) to get a response. Think of it as giving instructions to a very smart, very literal assistant.</p>
+      <br>
+      <p>Large Language Models predict the most statistically likely next tokens given your input. This means:</p>
+      <ul>
+        <li>Vague prompts → vague, generic outputs</li>
+        <li>Specific prompts → focused, useful outputs</li>
+        <li>Context-rich prompts → contextually accurate outputs</li>
+      </ul>
+    </div>
+    <div class="concept-block">
+      <h3>The Golden Rules</h3>
+      <div class="cheat-grid">
+        <div class="cheat-item"><div class="ci-label">Be Specific</div><div class="ci-val">Tell the model exactly what you want — format, length, tone, audience.</div></div>
+        <div class="cheat-item"><div class="ci-label">Give Context</div><div class="ci-val">Who are you? What's the use case? What constraints exist?</div></div>
+        <div class="cheat-item"><div class="ci-label">Set Expectations</div><div class="ci-val">Specify the output format (list, JSON, paragraph, table).</div></div>
+        <div class="cheat-item"><div class="ci-label">Iterate</div><div class="ci-val">Your first prompt is rarely your best. Refine and retry.</div></div>
+      </div>
+    </div>
+    <div class="concept-block">
+      <h3>How LLMs Actually Work</h3>
+      <p>LLMs don't "understand" like humans. They complete patterns. Your prompt is the beginning of a document — the model completes it. Framing your prompt like a document beginning you want completed is a powerful mental model.</p>
+      <br>
+      <p><strong>Example:</strong> Instead of asking "What is Python?" try starting with: <span class="hl" style="background:rgba(0,191,255,.12);color:#00bfff">Python is a programming language best suited for...</span> — the model will complete this with rich, accurate information.</p>
+    </div>
+  </div>
+
+  <!-- TAB 1: CLEAR vs VAGUE -->
+  <div class="lesson-content" id="l1_t1">
+    <div class="section-title">// Before & After Comparison</div>
+    <div class="compare">
+      <div class="compare-box">
+        <div class="compare-head bad">✗ Vague Prompt</div>
+        <div class="compare-code">tell me about dogs</div>
+        <div class="compare-why">Too vague — no topic focus, no length, no audience, no purpose. Will get a generic encyclopedia entry.</div>
+      </div>
+      <div class="compare-box">
+        <div class="compare-head good">✓ Specific Prompt</div>
+        <div class="compare-code">Write a 150-word summary explaining why dogs make good family pets. Focus on temperament, trainability, and safety. Use friendly language for a parenting blog.</div>
+        <div class="compare-why">Specifies length, topic focus, audience, and tone. Model knows exactly what to produce.</div>
+      </div>
+    </div>
+    <div class="compare">
+      <div class="compare-box">
+        <div class="compare-head bad">✗ Vague Prompt</div>
+        <div class="compare-code">write something about AI</div>
+        <div class="compare-why">No topic, no angle, no audience, no format. This could produce literally anything.</div>
+      </div>
+      <div class="compare-box">
+        <div class="compare-head good">✓ Specific Prompt</div>
+        <div class="compare-code">Write a 3-paragraph blog post intro explaining what AI means for small business owners in 2025. Avoid technical jargon. End with a compelling question to hook readers.</div>
+        <div class="compare-why">Audience defined, length set, tone specified, purpose clear, structure indicated.</div>
+      </div>
+    </div>
+    <div class="exercise" style="border-color:rgba(0,191,255,.25)">
+      <span class="exercise-tag" style="background:rgba(0,191,255,.1);color:#00bfff">// Interactive: Improve This Prompt</span>
+      <h4>Practice: Make it specific</h4>
+      <p>Take this vague prompt and improve it. Add length, context, audience, and format specifications:</p>
+      <textarea class="ex-prompt-area" id="ex1_input" placeholder="Start with the vague prompt: 'write something about climate change'&#10;&#10;Rewrite it here to be more specific...">write something about climate change</textarea>
+      <div class="ex-actions">
+        <button class="btn primary" style="background:linear-gradient(135deg,#00bfff,#0066ff)" onclick="runEx1()">▶ Test Prompt</button>
+        <button class="btn" onclick="scoreEx1()">📊 Score My Prompt</button>
+        <button class="btn" onclick="resetEx1()">↺ Reset</button>
+      </div>
+      <div class="ex-output" id="ex1_output"></div>
+      <div class="ex-feedback" id="ex1_feedback"></div>
+    </div>
+  </div>
+
+  <!-- TAB 2: STRUCTURE GUIDE -->
+  <div class="lesson-content" id="l1_t2">
+    <div class="concept-block">
+      <h3>The Anatomy of a Great Prompt</h3>
+      <p>Every strong prompt typically contains some combination of these elements:</p>
+    </div>
+    <div class="cheat-grid">
+      <div class="cheat-item"><div class="ci-label">1. Role</div><div class="ci-val">You are a [expert type] with [experience]...</div></div>
+      <div class="cheat-item"><div class="ci-label">2. Task</div><div class="ci-val">Write / Analyze / Summarize / Generate...</div></div>
+      <div class="cheat-item"><div class="ci-label">3. Context</div><div class="ci-val">For [audience], in the context of [situation]...</div></div>
+      <div class="cheat-item"><div class="ci-label">4. Format</div><div class="ci-val">As a [list/table/JSON/paragraph]...</div></div>
+      <div class="cheat-item"><div class="ci-label">5. Length</div><div class="ci-val">In [X] words / [N] bullet points...</div></div>
+      <div class="cheat-item"><div class="ci-label">6. Tone</div><div class="ci-val">Using [formal/casual/expert/friendly] tone...</div></div>
+    </div>
+    <div class="concept-block">
+      <h3>Prompt Template: The Universal Starter</h3>
+      <div class="pattern-template">You are a [ROLE] with expertise in [DOMAIN].
+
+Task: [SPECIFIC TASK]
+
+Context: [BACKGROUND INFORMATION]
+
+Requirements:
+- Output format: [FORMAT]
+- Length: [LENGTH]
+- Audience: [TARGET AUDIENCE]
+- Tone: [TONE/STYLE]
+
+[OPTIONAL: Examples of what you want]</div>
+      <button class="copy-btn" onclick="copyText(this, this.previousElementSibling.textContent.trim())">Copy Template</button>
+    </div>
+    <div class="exercise" style="border-color:rgba(0,191,255,.2)">
+      <span class="exercise-tag" style="background:rgba(0,191,255,.1);color:#00bfff">// Live Prompt Tester</span>
+      <h4>Write a prompt using the template above</h4>
+      <p>Fill in the template with your own values and test it:</p>
+      <textarea class="ex-prompt-area" id="ex_struct" placeholder="You are a [ROLE]...&#10;&#10;Task: ..." style="min-height:150px"></textarea>
+      <div class="ex-actions">
+        <button class="btn primary" style="background:linear-gradient(135deg,#00bfff,#0066ff)" onclick="runExStruct()">▶ Simulate Response</button>
+      </div>
+      <div class="ex-output" id="ex_struct_out"></div>
+    </div>
+  </div>
+
+  <!-- TAB 3: EXERCISE -->
+  <div class="lesson-content" id="l1_t3">
+    <div class="exercise" style="border-color:rgba(0,191,255,.25)">
+      <span class="exercise-tag" style="background:rgba(0,191,255,.1);color:#00bfff">// Main Exercise</span>
+      <h4>Fix the Broken Prompt</h4>
+      <p>Below are broken prompts. Rewrite each one to be more effective. Click "Check Answer" to see a model answer and score.</p>
+    </div>
+    <div class="concept-block">
+      <h3>Broken Prompt #1</h3>
+      <div class="compare-box" style="margin-bottom:1rem">
+        <div class="compare-head bad">✗ Original</div>
+        <div class="compare-code">help me write an email</div>
+      </div>
+      <textarea class="ex-prompt-area" id="fix1" placeholder="Rewrite this prompt to be specific and effective..."></textarea>
+      <div class="ex-actions">
+        <button class="btn primary" style="background:linear-gradient(135deg,#00bfff,#0066ff);margin-top:8px" onclick="checkFix(1)">Check Answer</button>
+      </div>
+      <div class="ex-feedback" id="fix1_fb"></div>
+    </div>
+    <div class="concept-block">
+      <h3>Broken Prompt #2</h3>
+      <div class="compare-box" style="margin-bottom:1rem">
+        <div class="compare-head bad">✗ Original</div>
+        <div class="compare-code">explain machine learning</div>
+      </div>
+      <textarea class="ex-prompt-area" id="fix2" placeholder="Rewrite this prompt..."></textarea>
+      <div class="ex-actions">
+        <button class="btn primary" style="background:linear-gradient(135deg,#00bfff,#0066ff);margin-top:8px" onclick="checkFix(2)">Check Answer</button>
+      </div>
+      <div class="ex-feedback" id="fix2_fb"></div>
+    </div>
+  </div>
+
+  <!-- TAB 4: QUIZ -->
+  <div class="lesson-content" id="l1_t4">
+    <div class="section-title">// Level 1 Knowledge Check</div>
+    <div class="quiz-q" id="q1_1">
+      <h4>Q1: What is the most important element to add to a vague prompt?</h4>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answerQuiz('q1_1',0,1,'Correct! Specificity about what you want, in what format, for what audience, transforms vague prompts into effective ones.')">More emojis and punctuation</button>
+        <button class="quiz-opt" onclick="answerQuiz('q1_1',1,1,'Correct! Specificity about what you want, in what format, for what audience, transforms vague prompts into effective ones.')">Specific context, format, audience and length requirements</button>
+        <button class="quiz-opt" onclick="answerQuiz('q1_1',2,1,'Correct! Specificity about what you want, in what format, for what audience, transforms vague prompts into effective ones.')">Making it longer</button>
+        <button class="quiz-opt" onclick="answerQuiz('q1_1',3,1,'Correct! Specificity about what you want, in what format, for what audience, transforms vague prompts into effective ones.')">Using formal language</button>
+      </div>
+      <div class="quiz-explain" id="q1_1_ex"></div>
+    </div>
+    <div class="quiz-q" id="q1_2">
+      <h4>Q2: How do LLMs fundamentally process your prompts?</h4>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answerQuiz('q1_2',0,1,'Exactly right. LLMs are statistical pattern completers — your prompt is the start of a document they finish.')">They understand meaning like humans do</button>
+        <button class="quiz-opt" onclick="answerQuiz('q1_2',1,1,'Exactly right. LLMs are statistical pattern completers — your prompt is the start of a document they finish.')">They predict statistically likely next tokens to complete a pattern</button>
+        <button class="quiz-opt" onclick="answerQuiz('q1_2',2,1,'Exactly right. LLMs are statistical pattern completers — your prompt is the start of a document they finish.')">They search a database for matching answers</button>
+        <button class="quiz-opt" onclick="answerQuiz('q1_2',3,1,'Exactly right. LLMs are statistical pattern completers — your prompt is the start of a document they finish.')">They consult the internet in real time</button>
+      </div>
+      <div class="quiz-explain" id="q1_2_ex"></div>
+    </div>
+    <div class="quiz-q" id="q1_3">
+      <h4>Q3: Which prompt would produce the most useful output?</h4>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answerQuiz('q1_3',0,2,'Yes! This prompt specifies role, length, audience, and format — giving the model everything it needs.')">tell me about python</button>
+        <button class="quiz-opt" onclick="answerQuiz('q1_3',1,2,'Yes! This prompt specifies role, length, audience, and format — giving the model everything it needs.')">PLEASE tell me everything about Python programming language!!!!</button>
+        <button class="quiz-opt" onclick="answerQuiz('q1_3',2,2,'Yes! This prompt specifies role, length, audience, and format — giving the model everything it needs.')">You are a Python instructor. Explain Python in 200 words to a complete beginner. Use 3 bullet points and one simple code example.</button>
+        <button class="quiz-opt" onclick="answerQuiz('q1_3',3,2,'Yes! This prompt specifies role, length, audience, and format — giving the model everything it needs.')">Describe Python programming and its features in detail</button>
+      </div>
+      <div class="quiz-explain" id="q1_3_ex"></div>
+    </div>
+  </div>
+
+  <!-- LEVEL FOOTER NAV -->
+  <div class="level-footer">
+    <a href="index.html" class="footer-prev">← Home</a>
+    <a href="level2.html" class="footer-next">Level 2: Techniques →</a>
+  </div>
+</div>
+
+<script src="shared.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Mark tab 0 as visited on page load
+  saveProgress('l1_t0_done', true);
+  document.querySelector('.tab.active').style.setProperty('background','rgba(0,191,255,.15)','important');
+});
+</script>
+</body>
+</html>

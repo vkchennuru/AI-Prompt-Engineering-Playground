@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level 3: Prompt Patterns — AI Prompt Engineering Playground</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  .level-hero h1{background:linear-gradient(135deg,#fff 30%,#bf5fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .tab.active{background:rgba(191,95,255,.15)!important;border-color:rgba(191,95,255,.4)!important;color:#bf5fff!important}
+  .progress-bar{background:linear-gradient(90deg,#bf5fff,#7c3aed)}
+  .nav-level-badge{background:rgba(191,95,255,.12);color:#bf5fff;border:1px solid rgba(191,95,255,.3)}
+</style>
+</head>
+<body>
+<div class="particles" id="particles"></div>
+<div class="bg-blobs"></div>
+
+<nav>
+  <div class="nav-left">
+    <a href="index.html" class="nav-home">← Home</a>
+    <span class="nav-level-badge">LEVEL 3</span>
+    <span class="nav-title-text">Prompt Patterns</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-progress-text" id="nav-progress-label">0/30 completed</span>
+  </div>
+</nav>
+<div class="progress-bar" id="progress-bar" style="width:0%"></div>
+
+<section class="level-hero">
+  <div class="level-hero-tag">🎨 Level 3 · 12–15 hours · Intermediate</div>
+  <h1>Prompt Patterns</h1>
+  <p>Reusable Prompt Templates — learn battle-tested patterns that save time and consistently produce great results.</p>
+  <div class="topic-pills">
+    <span class="topic-pill">Persona Patterns</span>
+    <span class="topic-pill">Template Patterns</span>
+    <span class="topic-pill">Recipe Patterns</span>
+    <span class="topic-pill">Meta-prompting</span>
+    <span class="topic-pill">Prompt Chaining</span>
+  </div>
+</section>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab(3,0,this)">📚 Pattern Library</button>
+    <button class="tab" onclick="switchTab(3,1,this)">🔗 Chaining</button>
+    <button class="tab" onclick="switchTab(3,2,this)">🤖 Meta-Prompting</button>
+    <button class="tab" onclick="switchTab(3,3,this)">🎯 Exercise</button>
+    <button class="tab" onclick="switchTab(3,4,this)">❓ Quiz</button>
+  </div>
+
+  <!-- TAB 0: PATTERN LIBRARY -->
+  <div class="lesson-content active" id="l3_t0">
+    <div class="concept-block">
+      <h3>Reusable Prompt Patterns</h3>
+      <p>Patterns are battle-tested prompt structures. Instead of reinventing the wheel, use proven frameworks.</p>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-head" onclick="togglePattern(this)">
+        <span class="pattern-name" style="color:#bf5fff">Expert Persona Pattern</span><span class="pattern-chevron">▼</span>
+      </div>
+      <div class="pattern-body open">
+        <div class="pattern-template">You are a [EXPERT_TYPE] with [X] years of experience in [FIELD].
+Your expertise includes: [SKILL_1], [SKILL_2], [SKILL_3].
+
+Task: [SPECIFIC_TASK]
+
+Requirements:
+- [REQUIREMENT_1]
+- [REQUIREMENT_2]
+
+Respond using the vocabulary and reasoning style of a [EXPERT_TYPE].</div>
+        <button class="copy-btn" onclick="copyText(this, this.previousElementSibling.textContent.trim())">Copy</button>
+      </div>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-head" onclick="togglePattern(this)">
+        <span class="pattern-name" style="color:#bf5fff">Recipe Pattern</span><span class="pattern-chevron">▼</span>
+      </div>
+      <div class="pattern-body">
+        <div class="pattern-template">To accomplish [GOAL], follow this recipe:
+
+Ingredients:
+- [COMPONENT_1]
+- [COMPONENT_2]
+- [COMPONENT_3]
+
+Steps:
+1. First, [ACTION_1]
+2. Then, [ACTION_2]
+3. Finally, [ACTION_3]
+
+Expected output: [RESULT_DESCRIPTION]</div>
+        <button class="copy-btn" onclick="copyText(this, this.previousElementSibling.textContent.trim())">Copy</button>
+      </div>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-head" onclick="togglePattern(this)">
+        <span class="pattern-name" style="color:#bf5fff">Reflection Pattern</span><span class="pattern-chevron">▼</span>
+      </div>
+      <div class="pattern-body">
+        <div class="pattern-template">Complete this task: [TASK]
+
+After completing, critically review your own output:
+- What assumptions did you make?
+- What could be improved?
+- Rate your response quality 1-10
+- Provide an improved version
+
+Show the initial response, then the reflection, then the improved version.</div>
+        <button class="copy-btn" onclick="copyText(this, this.previousElementSibling.textContent.trim())">Copy</button>
+      </div>
+    </div>
+    <div class="pattern-card">
+      <div class="pattern-head" onclick="togglePattern(this)">
+        <span class="pattern-name" style="color:#bf5fff">Template Fill Pattern</span><span class="pattern-chevron">▼</span>
+      </div>
+      <div class="pattern-body">
+        <div class="pattern-template">Fill in the following template based on these details:
+[DETAILS_OR_DATA]
+
+Template:
+---
+Title: [TITLE]
+Summary: [2-3 SENTENCE SUMMARY]
+Key Points:
+• [POINT_1]
+• [POINT_2]
+• [POINT_3]
+Call to Action: [CTA]
+---</div>
+        <button class="copy-btn" onclick="copyText(this, this.previousElementSibling.textContent.trim())">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 1: CHAINING -->
+  <div class="lesson-content" id="l3_t1">
+    <div class="concept-block">
+      <h3>Prompt Chaining</h3>
+      <p>Prompt chaining breaks complex tasks into a sequence of smaller prompts where each output feeds into the next. This is how production AI workflows are built.</p>
+    </div>
+    <div class="concept-block">
+      <h3>Example Chain: Blog Post Creation</h3>
+      <div class="cheat-grid">
+        <div class="cheat-item"><div class="ci-label">Prompt 1 → Outline</div><div class="ci-val">Generate a detailed outline for a blog post about [TOPIC]</div></div>
+        <div class="cheat-item"><div class="ci-label">Prompt 2 → Draft</div><div class="ci-val">Using this outline: [OUTPUT_1], write the full blog post draft</div></div>
+        <div class="cheat-item"><div class="ci-label">Prompt 3 → Edit</div><div class="ci-val">Edit this draft for clarity and engagement: [OUTPUT_2]</div></div>
+        <div class="cheat-item"><div class="ci-label">Prompt 4 → SEO</div><div class="ci-val">Generate meta description and title tags for: [OUTPUT_3]</div></div>
+      </div>
+    </div>
+    <div class="exercise" style="border-color:rgba(191,95,255,.2)">
+      <span class="exercise-tag" style="background:rgba(191,95,255,.1);color:#bf5fff">// Chain Simulator</span>
+      <h4>Design a 2-Step Chain</h4>
+      <p>Pick any task and design chained prompts. Write Prompt 1 first:</p>
+      <textarea class="ex-prompt-area" id="chain1" placeholder="Prompt 1: (produces the initial output)..."></textarea>
+      <button class="btn primary" style="background:linear-gradient(135deg,#bf5fff,#7c3aed);margin-top:8px" onclick="showChainStep2()">▶ Run Prompt 1 → Get Output</button>
+      <div class="ex-output" id="chain1_out"></div>
+      <div id="chain2_section" style="display:none;margin-top:1rem">
+        <p style="color:rgba(255,255,255,.6);font-size:.88rem;margin-bottom:8px">Prompt 2: (uses the output above)</p>
+        <textarea class="ex-prompt-area" id="chain2" placeholder="Using the output above, now..."></textarea>
+        <button class="btn primary" style="background:linear-gradient(135deg,#bf5fff,#7c3aed);margin-top:8px" onclick="showChainStep3()">▶ Run Prompt 2</button>
+        <div class="ex-output" id="chain2_out"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: META-PROMPTING -->
+  <div class="lesson-content" id="l3_t2">
+    <div class="concept-block">
+      <h3>Meta-Prompting</h3>
+      <p>Meta-prompting means using the AI to write, improve, or generate prompts for you. It's a force-multiplier technique.</p>
+    </div>
+    <div class="concept-block">
+      <h3>Meta-Prompt Templates</h3>
+      <div class="pattern-template" style="margin-bottom:1rem">Improve this prompt to make it more specific, effective, and likely to produce high-quality output:
+
+[YOUR ORIGINAL PROMPT]
+
+Provide 3 improved versions with different approaches. Explain what you improved in each.</div>
+      <div class="pattern-template">Generate 5 different prompts for this use case: [DESCRIBE USE CASE]
+
+For each prompt, use a different technique:
+1. Zero-shot direct
+2. Role-based
+3. Few-shot with examples
+4. Chain-of-thought
+5. Structured template</div>
+    </div>
+    <div class="exercise" style="border-color:rgba(191,95,255,.2)">
+      <span class="exercise-tag" style="background:rgba(191,95,255,.1);color:#bf5fff">// Meta-Prompt Exercise</span>
+      <h4>Write a prompt to generate prompts</h4>
+      <p>Design a meta-prompt that asks the AI to create 3 different prompts for a task of your choice:</p>
+      <textarea class="ex-prompt-area" id="meta_input" placeholder="Create 3 prompts for [task]...&#10;&#10;Each should use a different technique..."></textarea>
+      <div class="ex-actions">
+        <button class="btn primary" style="background:linear-gradient(135deg,#bf5fff,#7c3aed)" onclick="runMeta()">▶ Simulate</button>
+        <button class="btn" onclick="fillMetaExample()">💡 Example</button>
+      </div>
+      <div class="ex-output" id="meta_output"></div>
+    </div>
+  </div>
+
+  <!-- TAB 3: EXERCISE -->
+  <div class="lesson-content" id="l3_t3">
+    <div class="exercise" style="border-color:rgba(191,95,255,.25)">
+      <span class="exercise-tag" style="background:rgba(191,95,255,.1);color:#bf5fff">// Pattern Challenge</span>
+      <h4>Build a Complete Prompt Using Any Pattern</h4>
+      <p>Choose one pattern from the library and apply it to a real task. Score 60+ to complete this exercise.</p>
+      <textarea class="ex-prompt-area" id="pattern_ex" placeholder="Apply the Expert Persona, Recipe, or Reflection pattern to a real task..." style="min-height:160px"></textarea>
+      <div class="ex-actions">
+        <button class="btn primary" style="background:linear-gradient(135deg,#bf5fff,#7c3aed)" onclick="runPatternEx()">▶ Evaluate</button>
+      </div>
+      <div class="ex-output" id="pattern_ex_out"></div>
+      <div class="ex-feedback" id="pattern_ex_fb"></div>
+    </div>
+  </div>
+
+  <!-- TAB 4: QUIZ -->
+  <div class="lesson-content" id="l3_t4">
+    <div class="section-title">// Level 3 Quiz</div>
+    <div class="quiz-q" id="q3_1">
+      <h4>Q1: What is the main benefit of prompt chaining?</h4>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answerQuiz('q3_1',0,1,'Exactly. Chaining breaks complex tasks into manageable steps, each building on the last.')">It uses fewer tokens</button>
+        <button class="quiz-opt" onclick="answerQuiz('q3_1',1,1,'Exactly. Chaining breaks complex tasks into manageable steps, each building on the last.')">It breaks complex tasks into focused sequential steps, improving overall quality</button>
+        <button class="quiz-opt" onclick="answerQuiz('q3_1',2,1,'Exactly. Chaining breaks complex tasks into manageable steps, each building on the last.')">It always costs less</button>
+        <button class="quiz-opt" onclick="answerQuiz('q3_1',3,1,'Exactly. Chaining breaks complex tasks into manageable steps, each building on the last.')">It only works with GPT-4</button>
+      </div>
+      <div class="quiz-explain" id="q3_1_ex"></div>
+    </div>
+    <div class="quiz-q" id="q3_2">
+      <h4>Q2: What is meta-prompting?</h4>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="answerQuiz('q3_2',0,2,'Exactly! Meta-prompting uses AI to generate, improve, or optimize your prompts — a powerful multiplier.')">Using very long system prompts</button>
+        <button class="quiz-opt" onclick="answerQuiz('q3_2',1,2,'Exactly! Meta-prompting uses AI to generate, improve, or optimize your prompts — a powerful multiplier.')">Adding metadata to prompts</button>
+        <button class="quiz-opt" onclick="answerQuiz('q3_2',2,2,'Exactly! Meta-prompting uses AI to generate, improve, or optimize your prompts — a powerful multiplier.')">Using AI to write or improve other prompts</button>
+        <button class="quiz-opt" onclick="answerQuiz('q3_2',3,2,'Exactly! Meta-prompting uses AI to generate, improve, or optimize your prompts — a powerful multiplier.')">Using multiple AI models simultaneously</button>
+      </div>
+      <div class="quiz-explain" id="q3_2_ex"></div>
+    </div>
+  </div>
+
+  <div class="level-footer">
+    <a href="level2.html" class="footer-prev">← Level 2: Techniques</a>
+    <a href="level4.html" class="footer-next">Level 4: Optimization →</a>
+  </div>
+</div>
+
+<script src="shared.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>saveProgress('l3_t0_done',true));</script>
+</body>
+</html>
